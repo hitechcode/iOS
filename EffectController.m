@@ -26,13 +26,28 @@
                nil];
 }
 
+#pragma mark apply effect
+-(UIImage *)addImageEffect:(UIImage *)image Filter:(NSString *)imageFilter{
+    
+    CIImage *ciimage = [[CIImage alloc] initWithImage:image];
+    CIFilter *_filter = [CIFilter filterWithName:imageFilter keysAndValues:kCIInputImageKey, ciimage, nil];
+    [_filter setDefaults];
+    
+    CIContext *context = [CIContext contextWithOptions:nil];
+    CIImage *output = [_filter outputImage];
+    CGImageRef cgImage = [context createCGImage:output fromRect:[output extent]];
+    UIImage *resultImage = [UIImage imageWithCGImage:cgImage];
+    
+    return resultImage;
+}
+
 #pragma mark option button onclick listener
 -(void)optButtonTapped:(id)sender{
     UIButton *tButton = (UIButton*)sender;
     int bTag = (int)tButton.tag;
     switch (bTag) {
         case 1:
-             mainImageView.image = [effectController addImageEffect:originalImage Filter:[filters objectAtIndex:1]];
+             mainImageView.image = [self addImageEffect:originalImage Filter:[filters objectAtIndex:1]];
             break;
         default:
             break;
