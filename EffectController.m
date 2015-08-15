@@ -6,7 +6,7 @@
 
 @end
 
-@implementation ViewController
+@implementation EffectController
 
 #pragma mark initialize variables
 -(void)initFilters{
